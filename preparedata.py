@@ -19,6 +19,9 @@ data = pd.DataFrame.from_csv('tox21_10k_data_all_pandas.csv')
 valdata = pd.DataFrame.from_csv('tox21_10k_challenge_test_pandas.csv')
 testdata = pd.DataFrame.from_csv('tox21_10k_challenge_score_pandas.csv')
 
+testdata.to_csv('testdata_before.csv')
+print "saved pandas"
+
 #Function to get parent of a smiles
 def parent(smiles):
  st = mv.Standardizer() #MolVS standardizer
