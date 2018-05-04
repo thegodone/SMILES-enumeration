@@ -87,9 +87,9 @@ def dataprep():
 
 
 #Read the data
-data = pd.DataFrame.read_csv('tox21_10k_data_all_pandas.csv')
-valdata = pd.DataFrame.read_csv('tox21_10k_challenge_test_pandas.csv')
-testdata = pd.DataFrame.read_csv('tox21_10k_challenge_score_pandas.csv')
+data = pd.DataFrame.from_csv('tox21_10k_data_all_pandas.csv')
+valdata = pd.DataFrame.from_csv('tox21_10k_challenge_test_pandas.csv')
+testdata = pd.DataFrame.from_csv('tox21_10k_challenge_score_pandas.csv')
 
 #Function to get parent of a smiles
 def parent(smiles):
@@ -135,7 +135,7 @@ prop = 'SR-MMP'
 #Choose property to model
 print testdata
 print testdata[prop]
- 
+
 #Convert to Numpy arrays
 X_train = np.array(list(data[~(data[prop].isnull())][fp]))
 X_val = np.array(list(valdata[~(valdata[prop].isnull())][fp]))
