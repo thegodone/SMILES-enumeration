@@ -45,6 +45,42 @@ for i,mol in enumerate(sdprovider):
 data = pd.DataFrame(collector)
 data.to_csv(basename + '_pandas.csv')
 
+filename = "tox21_10k_challenge_test.sdf"
+basename = filename.split(".")[0]
+collector = []
+sdprovider = Chem.SDMolSupplier(filename)
+for i,mol in enumerate(sdprovider):
+    try:
+        moldict = {}
+        moldict['smiles'] = Chem.MolToSmiles(mol)
+        #Parse Data
+        for propname in mol.GetPropNames():
+            moldict[propname] = mol.GetProp(propname)
+        collector.append(moldict)
+    except:
+        print "Molecule %s failed"%i
+
+data = pd.DataFrame(collector)
+data.to_csv(basename + '_pandas.csv')
+
+filename = "tox21_10k_challenge_score.sdf"
+basename = filename.split(".")[0]
+collector = []
+sdprovider = Chem.SDMolSupplier(filename)
+for i,mol in enumerate(sdprovider):
+    try:
+        moldict = {}
+        moldict['smiles'] = Chem.MolToSmiles(mol)
+        #Parse Data
+        for propname in mol.GetPropNames():
+            moldict[propname] = mol.GetProp(propname)
+        collector.append(moldict)
+    except:
+        print "Molecule %s failed"%i
+
+data = pd.DataFrame(collector)
+data.to_csv(basename + '_pandas.csv')
+
 #Read the data
 data = pd.DataFrame.from_csv('tox21_10k_data_all_pandas.csv')
 valdata = pd.DataFrame.from_csv('tox21_10k_challenge_test_pandas.csv')
