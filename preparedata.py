@@ -49,7 +49,7 @@ testdata = clean_data(testdata)
 #Calculate Fingerprints
 def morgan_fp(smiles):
  mol = Chem.MolFromSmiles(smiles)
- fp = AllChem.GetMorganFingerprintAsBitVect(mol,3, nBits=8192)
+ fp = AllChem.GetMorganFingerprintAsBitVect(mol,3, nBits=8192) 
  npfp = np.array(list(fp.ToBitString())).astype('int8')
  return npfp
 
@@ -58,10 +58,15 @@ data[fp] = data["smiles_parent"].apply(morgan_fp)
 valdata[fp] = valdata["smiles_parent"].apply(morgan_fp)
 testdata[fp] = testdata["smiles_parent"].apply(morgan_fp)
 
+data.to_csv('data.csv')
+valdata.to_csv('valdata.csv')
+testdata.to_csv('testdata.csv')
+
+
 prop = 'SR-MMP'
 #Choose property to model
 print len(testdata)
-print len(testdata[prop])
+
 
 #Convert to Numpy arrays
 X_train = np.array(list(data[~(data[prop].isnull())][fp]))
