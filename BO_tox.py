@@ -26,65 +26,70 @@ from matplotlib import pyplot as plt
 #!/usr/bin/python
 from rdkit import Chem
 import pandas as pd
- 
-filename = "tox21_10k_data_all.sdf"
-basename = filename.split(".")[0]
-collector = []
-sdprovider = Chem.SDMolSupplier(filename)
-for i,mol in enumerate(sdprovider):
-    try:
-        moldict = {}
-        moldict['smiles'] = Chem.MolToSmiles(mol)
-        #Parse Data
-        for propname in mol.GetPropNames():
-            moldict[propname] = mol.GetProp(propname)
-        collector.append(moldict)
-    except:
-        print "Molecule %s failed"%i
 
-data = pd.DataFrame(collector)
-data.to_csv(basename + '_pandas.csv')
 
-filename = "tox21_10k_challenge_test.sdf"
-basename = filename.split(".")[0]
-collector = []
-sdprovider = Chem.SDMolSupplier(filename)
-for i,mol in enumerate(sdprovider):
-    try:
-        moldict = {}
-        moldict['smiles'] = Chem.MolToSmiles(mol)
-        #Parse Data
-        for propname in mol.GetPropNames():
-            moldict[propname] = mol.GetProp(propname)
-        collector.append(moldict)
-    except:
-        print "Molecule %s failed"%i
+def dataprep():
+    filename = "tox21_10k_data_all.sdf"
+    basename = filename.split(".")[0]
+    collector = []
+    sdprovider = Chem.SDMolSupplier(filename)
+    for i,mol in enumerate(sdprovider):
+        try:
+            moldict = {}
+            moldict['smiles'] = Chem.MolToSmiles(mol)
+            #Parse Data
+            for propname in mol.GetPropNames():
+                moldict[propname] = mol.GetProp(propname)
+            collector.append(moldict)
+        except:
+            print "Molecule %s failed"%i
 
-data = pd.DataFrame(collector)
-data.to_csv(basename + '_pandas.csv')
+    data = pd.DataFrame(collector)
+    data.to_csv(basename + '_pandas.csv')
 
-filename = "tox21_10k_challenge_score.sdf"
-basename = filename.split(".")[0]
-collector = []
-sdprovider = Chem.SDMolSupplier(filename)
-for i,mol in enumerate(sdprovider):
-    try:
-        moldict = {}
-        moldict['smiles'] = Chem.MolToSmiles(mol)
-        #Parse Data
-        for propname in mol.GetPropNames():
-            moldict[propname] = mol.GetProp(propname)
-        collector.append(moldict)
-    except:
-        print "Molecule %s failed"%i
+    filename = "tox21_10k_challenge_test.sdf"
+    basename = filename.split(".")[0]
+    collector = []
+    sdprovider = Chem.SDMolSupplier(filename)
+    for i,mol in enumerate(sdprovider):
+        try:
+            moldict = {}
+            moldict['smiles'] = Chem.MolToSmiles(mol)
+            #Parse Data
+            for propname in mol.GetPropNames():
+                moldict[propname] = mol.GetProp(propname)
+            collector.append(moldict)
+        except:
+            print "Molecule %s failed"%i
 
-data = pd.DataFrame(collector)
-data.to_csv(basename + '_pandas.csv')
+    data = pd.DataFrame(collector)
+    data.to_csv(basename + '_pandas.csv')
+
+    filename = "tox21_10k_challenge_score.sdf"
+    basename = filename.split(".")[0]
+    collector = []
+    sdprovider = Chem.SDMolSupplier(filename)
+    for i,mol in enumerate(sdprovider):
+        try:
+            moldict = {}
+            moldict['smiles'] = Chem.MolToSmiles(mol)
+            #Parse Data
+            for propname in mol.GetPropNames():
+                moldict[propname] = mol.GetProp(propname)
+            collector.append(moldict)
+        except:
+            print "Molecule %s failed"%i
+
+    data = pd.DataFrame(collector)
+    data.to_csv(basename + '_pandas.csv')
+
+
+
 
 #Read the data
-data = pd.DataFrame.from_csv('tox21_10k_data_all_pandas.csv')
-valdata = pd.DataFrame.from_csv('tox21_10k_challenge_test_pandas.csv')
-testdata = pd.DataFrame.from_csv('tox21_10k_challenge_score_pandas.csv')
+data = pd.DataFrame.read_csv('tox21_10k_data_all_pandas.csv')
+valdata = pd.DataFrame.read_csv('tox21_10k_challenge_test_pandas.csv')
+testdata = pd.DataFrame.read_csv('tox21_10k_challenge_score_pandas.csv')
 
 #Function to get parent of a smiles
 def parent(smiles):
@@ -121,12 +126,15 @@ def morgan_fp(smiles):
  return npfp
 
 fp = "morgan"
-data[fp] = data["smiles_parent"].apply(morgan_fp) 
-valdata[fp] = valdata["smiles_parent"].apply(morgan_fp) 
-testdata[fp] = testdata["smiles_parent"].apply(morgan_fp) 
+data[fp] = data["smiles_parent"].apply(morgan_fp)
+valdata[fp] = valdata["smiles_parent"].apply(morgan_fp)
+testdata[fp] = testdata["smiles_parent"].apply(morgan_fp)
 
-#Choose property to model
+
 prop = 'SR-MMP'
+#Choose property to model
+print testdata
+print testdata[prop]
  
 #Convert to Numpy arrays
 X_train = np.array(list(data[~(data[prop].isnull())][fp]))
