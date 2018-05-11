@@ -443,11 +443,11 @@ void testGETAWAYcustom() {
 
 int main(int argc, char *argv[]) {
   RDLog::InitLogs();
-  //testRDFcustom();
-  //testMORSEcustom();
-  //testAUTOCORR3Dcustom();
+  testRDFcustom();
+  testMORSEcustom();
+  testAUTOCORR3Dcustom();
   testWHIMcustom1();
-  testWHIMcustom();
-  //testGETAWAYcustom();
+  testWHIMcustom(); // case of divide by zeros (ie when the sum of weight are near zero!)
+  testGETAWAYcustom();
 
 }
