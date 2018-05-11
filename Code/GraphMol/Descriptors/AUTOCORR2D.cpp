@@ -72,7 +72,6 @@ void get2DautocorrelationDesc(double* dist, int numAtoms, const ROMol& mol,
     }
   }
 
-
   std::vector<double> squaresumdiff(6,0.0);
   for (unsigned int i = 0; i < numAtoms; i++) {
      for (unsigned int t = 0; t < 6; ++t) {
